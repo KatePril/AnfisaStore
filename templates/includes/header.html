@@ -1,0 +1,16 @@
+<!-- Использованы классы бустрапа для создания типовой навигации с логотипом -->
+<!-- В качестве обёртки для пунктов меню выступает список  -->
+<nav class="navbar navbar-dark navbar-expand-sm" style="background-color: green">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'ice_cream:index' %}">
+       Анфиса для друзей
+    </a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'ice_cream:ice_cream_list' %}">
+          Все сорта мороженого
+        </a>
+      </li>
+    </ul>
+  </div>         
+</nav>

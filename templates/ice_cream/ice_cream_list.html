@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Полный список сортов мороженого</h1>
+  <!-- py-3: контент внутри блока размещается с отсупом сверху и снизу --> 
+  <div class="row py-3">
+    {% for ice_cream in ice_creams %}
+      {% include 'ice_cream/includes/ice_cream_card.html' %}  
+    {% endfor %}
+  </div>
+{% endblock %}

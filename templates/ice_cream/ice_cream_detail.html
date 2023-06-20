@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- py-1: контент внутри блока размещается с отсупом сверху и снизу -->      
+<div class="container py-2">
+<!-- py-3: контент внутри блока размещается с отсупом сверху и снизу -->
+  <div class="row py-3">
+  <!-- Блок картинки займет всю ширину родительского блока на мобильном, 
+    5/12 на планшете и 1/4 на компьютере -->        
+    <div class="col-12 col-md-5 col-xl-3" >
+      <!--img-fluid: размер изображения подстроится под занимаемый блок -->
+      <!-- img-thumbnail: вокруг изображения тонкая обводка -->
+      <img class="img-fluid img-thumbnail" src="{% static 'img/tmb.png' %}" alt="">
+    </div>
+    <!-- Блок описания займет всю ширину родительского блока на мобильном, 
+       7/12 на планшете и 3/4 на компьютере -->   
+    <div class="col-12 col-md-7 col-xl-9">
+      <h1>{{ ice_cream.name }}</h1>
+      <p>{{ ice_cream.description }}</p>
+    </div>
+  </div>
+</div> 
+{% endblock %}
