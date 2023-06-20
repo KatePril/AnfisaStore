@@ -2,10 +2,9 @@ from django.shortcuts import render
 
 from .models import IceCream
 
-
 def index(request):
     template = 'ice_cream/index.html'
-    selected_ice_creams = []
+    selected_ice_creams = IceCream.objects.filter(on_main='True')
     # только то мороженое, у кторого есть флаг on_main
     context = {
         'selected_ice_creams': selected_ice_creams,
