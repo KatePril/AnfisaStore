@@ -20,9 +20,9 @@
         <div class="col bg-success rounded py-3 text-light mx-1">Quantity: {{ice_cream.quantity}}</div>
         <div class="col bg-success rounded py-3 text-light mx-1">Price: {{ice_cream.price}}</div>
       </div>
-      {% comment %} {%if (ice_cream.quantity < 3) %} {% endcomment %}
+      {% comment %} {%if (ice_cream.quantity < 3) %}
       <div class="row bg-danger rounded py-3 text-light mx-1">Almost sold out!</div>
-      {% endif %}
+      {% endif %} {% endcomment %}
     </div>
     <!-- btn: показывает что это кнопка  -->
     <!-- btn-success: определяет цвет кнопки --> 
