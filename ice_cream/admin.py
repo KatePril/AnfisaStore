@@ -1,8 +1,15 @@
 from django.contrib import admin
 
-from .models import IceCream
+from .models import IceCream, Image
 
-# admin.site.register(IceCream)
+class ImageInline(admin.TabularInline):
+    model = Image
+    fields = ('ice_cream','image_tag')
+    readonly_fileds = ('image_tag',)
+    extra = 1
+
+admin.site.register(Image)
 @admin.register(IceCream)
 class IceCreamAdmin(admin.ModelAdmin):
-    pass
+    fields = ('name', 'description', 'quantity', 'price')
+    inlines = (ImageInline,)
