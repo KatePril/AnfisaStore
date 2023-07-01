@@ -42,9 +42,11 @@ def index(request):
 
 class IceCreamIndex(ListView):
     model = IceCream
+    template_name = ('icecream_index.html')
 
 class IceCreamList(ListView):
     model = IceCream
+    template_name = ('icecream_list.html')
     
 class IceCreamDetail(DetailView):
     model = IceCream

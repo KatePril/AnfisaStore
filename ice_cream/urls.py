@@ -8,8 +8,8 @@ app_name = 'ice_cream'
 urlpatterns = [
     # Главная страница
     
-    path('', index, name='index'),
-    # path('', IceCreamIndex.as_view(), name='index'),
+    # path('', index, name='index'),
+    path('', IceCreamIndex.as_view(), name='index'),
     
     # Список мороженого
     path('ice_cream/', IceCreamList.as_view(), name='ice_cream_list'),
