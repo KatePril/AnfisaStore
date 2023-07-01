@@ -9,9 +9,9 @@
     5/12 на планшете и 1/4 на компьютере -->        
     <div class="col-12 col-md-5 col-xl-3" >
       <!--img-fluid: размер изображения подстроится под занимаемый блок -->
-      <!-- img-thumbnail: вокруг изображения тонкая обводка -->
-      {% if ice_cream.image %}
-      <img class="card-img-top img-fluid" src="{{ice_cream.image.url}}" height='100'>
+      <!-- img-thumbnail: вокруг изображения тонкая обводка --> 
+      {% if object.main_image %}
+      <img class="card-img-top img-fluid" src="{{object.main_image.image.url}}" height='100'>
       {% else %}
       <img class="card-img-top img-fluid" src="{% static 'img/tmb.png' %}" alt="">
       {% endif %}
@@ -19,16 +19,28 @@
     <!-- Блок описания займет всю ширину родительского блока на мобильном, 
       7/12 на планшете и 3/4 на компьютере -->   
     <div class="col-12 col-md-7 col-xl-9">
-      {%if ice_cream.quantity < 3 %}
+      {%if object.quantity < 3 %}
       <div class="row bg-danger rounded text-light text-center p-2 my-2">Almost sold out!</div>
       {% endif %}
-      <h1>{{ ice_cream.name }}</h1>
-      <p>{{ ice_cream.description }}</p>
+      <h1>{{ object.name }}</h1>
+      <p>{{ object.description }}</p>
       <div class="row">
-        <div class="col bg-success rounded py-3 text-light mx-1">Quantity: {{ice_cream.quantity}}</div>
-        <div class="col bg-success rounded py-3 text-light mx-1">Price: {{ice_cream.price}}</div>
+        <div class="col bg-success rounded py-3 text-light mx-1">Quantity: {{object.quantity}}</div>
+        <div class="col bg-success rounded py-3 text-light mx-1">Price: {{object.price}}</div>
       </div>
     </div>
+
+    <div class="row m-3" style="display: flex; flex-wrap:wrap;">
+      {% for image in object.images.all%}
+        {% if image.image.url != object.main_image.first.image.url%}
+          <div style="height: 280px; width:33%; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+            <img class="cover card-img-top" src="{{image.image.url}}" style="width:100%;">
+          </div>
+        {% endif %}
+      {% endfor%}
+    </div>
+    
+
   </div>
 </div> 
 {% endblock %}

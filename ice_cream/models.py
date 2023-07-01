@@ -22,16 +22,16 @@ class IceCream(models.Model):
         return f'{self.name}'
     
     def images(self):
-        return Image.objects.filter(product=self.id)
+        return Image.objects.filter(ice_cream=self.id)
 
     def main_image(self):
-        image = Image.objects.filter(product=self.id, is_main=True)
+        image = Image.objects.filter(ice_cream=self.id, is_main=True)
         if image:
-            return image
+            return image.first()
         return self.images().first()
 
     def get_absolute_url(self):
-        return reverse('product', kwargs={'pk': self.id})
+        return reverse('ice_cream', kwargs={'pk': self.id})
 
 class Image(models.Model):
     image = ProcessedImageField(

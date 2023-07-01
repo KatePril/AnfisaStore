@@ -8,8 +8,8 @@
   <div class="card h-100">
     <!-- card-img-top: изображение размещается вверху карточки -->
     <!--img-fluid: размер изображения подстроится под занимаемый блок -->
-    {% if ice_cream.image %}
-    <img class="card-img-top img-fluid" src="{{ice_cream.image.url}}" height='100'>
+    {% if ice_cream.main_image %}
+    <img class="card-img-top img-fluid" src="{{ice_cream.main_image.image.url}}" height='100'>
     {% else %}
     <img class="card-img-top img-fluid" src="{% static 'img/tmb.png' %}" alt="">
     {% endif %}
