@@ -40,6 +40,9 @@ def index(request):
 #     #         context['main_image'] = image
 #     return render(request, template, context)
 
+class IceCreamIndex(ListView):
+    model = IceCream
+
 class IceCreamList(ListView):
     model = IceCream
     
