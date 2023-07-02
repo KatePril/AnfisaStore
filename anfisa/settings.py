@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'imagekit',
     
     'ice_cream.apps.IceCreamConfig',
+    'comments.apps.CommentsConfig',
 ]
 
 MIDDLEWARE = [
