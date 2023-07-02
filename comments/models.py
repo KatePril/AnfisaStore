@@ -6,3 +6,9 @@ class Comment(models.Model):
     email = models.EmailField()
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self) :
+        return f'{self.text}'
+    
+    class Meta:
+        ordering = ['-created_at']

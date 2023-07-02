@@ -2,11 +2,17 @@
 {% load static %}
 {% block content %}
 <h1>Add comment</h1>
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input class="btn btn-outline-success" type="submit" value="Publish comment">
-</form>
+<div class="row my-2 bg-success p-3" style="border-radius: 15px;">
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <div class="row">
+            <div class="col"></div>
+            <input class="btn btn-outline-light col" type="submit" value="Publish comment">
+            <div class="col"></div>
+        </div>
+    </form>
+</div>
 
 <h1>Comments</h1>
 {% for comment in comments %}

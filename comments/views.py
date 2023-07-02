@@ -9,7 +9,7 @@ def comments(request):
         if form.is_valid:
             comment = form.save(commit=False)
             comment.save()
-            return redirect('comments')
+            return redirect('comments:comments')
     else:
         form = CommentForm()
     comments_all = Comment.objects.all()

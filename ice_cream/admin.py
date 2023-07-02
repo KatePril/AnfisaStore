@@ -4,8 +4,8 @@ from .models import IceCream, Image
 
 class ImageInline(admin.TabularInline):
     model = Image
-    fields = ('ice_cream', 'image', 'is_main')
-    # readonly_fileds = ('image_tag',)
+    fields = ('ice_cream', 'image_tag_thumbnail', 'image', 'is_main')
+    # readonly_fileds = ('image_tag_thumbnail',)
     extra = 1
 
 admin.site.register(Image)
