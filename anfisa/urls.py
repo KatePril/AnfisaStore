@@ -23,5 +23,6 @@ from django.conf import settings
 urlpatterns = [    
     # Сначала проверяем все пути, которые есть в приложении ice_cream
     path('', include('ice_cream.urls', namespace='ice_cream')),
+    path('', include('comments.urls', namespace='comments')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
