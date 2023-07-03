@@ -49,13 +49,18 @@ LOGGING = {
 # Application definition
 
 INSTALLED_APPS = [
-    'ice_cream.apps.IceCreamConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'mptt',
+    'imagekit',
+    
+    'ice_cream.apps.IceCreamConfig',
+    'comments.apps.CommentsConfig',
 ]
 
 MIDDLEWARE = [
