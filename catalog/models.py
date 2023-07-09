@@ -3,6 +3,8 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.conf import settings
 
+from main.mixins import MetaTagMixin
+
 from mptt.models import MPTTModel, TreeForeignKey
 
 from imagekit.models import ProcessedImageField
@@ -13,7 +15,7 @@ from imagekit.processors import ResizeToFill
 MEDIA_ROOT = settings.MEDIA_ROOT
 
 
-class Category(MPTTModel):
+class Category(MPTTModel, MetaTagMixin):
     name = models.CharField(verbose_name='Назва', max_length=255)
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True)
     description = models.TextField(verbose_name='Опис', blank=True, null=True)

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block meta %}
+    {% include 'includes/_meta_tags.html' with meta_title=object.get_meta_title meta_description=object.meta_description meta_keywords=object.meta_keywords %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'includes/_breadcrumbs.html' %}
+{% endblock %}
+
 {% block content %}
 <!-- py-1: контент внутри блока размещается с отсупом сверху и снизу -->      
 <div class="container py-2">
