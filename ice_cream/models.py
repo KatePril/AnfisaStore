@@ -6,7 +6,9 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 from catalog.models import Category
 
-class IceCream(models.Model):
+from main.mixins import MetaTagMixin
+
+class IceCream(MetaTagMixin):
     name = models.CharField('Название', max_length=200)
     description = models.TextField('Описание')
     quantity = models.PositiveIntegerField(default=0)

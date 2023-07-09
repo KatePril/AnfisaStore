@@ -15,5 +15,5 @@ class ImageInline(admin.TabularInline):
 admin.site.register(Image)
 @admin.register(IceCream)
 class IceCreamAdmin(admin.ModelAdmin):
-    fields = ('name', 'description', 'quantity', 'price', 'on_main')
+    fields = ('name', 'description', 'quantity', 'price', 'on_main', 'meta_title', 'meta_description', 'meta_keywords')
     inlines = (ImageInline, IceCreamCategoryInline)
