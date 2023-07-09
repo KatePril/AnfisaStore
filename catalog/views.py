@@ -2,7 +2,13 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .models import Category
 from ice_cream.models import IceCream
+from django.core.paginator import Paginator
 # Create your views here.
+
+def get_page_ice_cream(request, articles, pages_num):
+    paginator = Paginator(articles, pages_num)
+    page_number = request.GET.get("page")
+    return paginator.get_page(page_number)
 
 class CatalogIndexView(ListView):
     template_name = 'catalog/index.html'

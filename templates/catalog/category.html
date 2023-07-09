@@ -8,17 +8,30 @@
     <div class='col-3 bg-body-tertiary rounded-3 p-4'>
         <h1 class="text-center">Категории</h1>
         <hr>
-        <ul class="list-group">
+        <ul class="list-group" style="position: sticky;top: 20px;">
             {% recursetree categories %}
-            <li class="bg-success rounded p-2 text-light" style="list-style-type: none; ">
-                <a class="text-light" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
+                {% if count == 0 %}
+                    {% comment %} {% set count = 1 %} {% endcomment %}
+                <li class="bg-success rounded p-2 text-light" style="list-style-type: none; ">
+                    <a class="text-light" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
 
-                {% if not node.is_leaf_node %}
-                    <ul class="children">
-                        {{ children }}
-                    </ul>
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% else %}
+                <li class="bg-light rounded p-2 text-success" style="list-style-type: none; ">
+                    <a class="text-success" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
+
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
                 {% endif %}
-            </li>
             {% endrecursetree %}
         </ul>
     </div>
@@ -31,14 +44,13 @@
             </div>
         </section>
 
-        <div>
-            {% for item in object_list %}
-                <div>
-                    <p>{{ item.name }}</p>
-                </div>
+        <div class="row py-3">
+            {% for ice_cream in object_list %}
+                {% include 'ice_cream/includes/ice_cream_card.html' %}
             {% endfor %}
 
-            {% if is_paginated %}
+
+            {% comment %} {% if is_paginated %}
                 <div class="pagination">
                     <span class="step-links">
                         {% if page_obj.has_previous %}
@@ -56,7 +68,7 @@
                         {% endif %}
                     </span>
                 </div>
-            {% endif %}
+            {% endif %} {% endcomment %}
 
         </div>
     </div>
