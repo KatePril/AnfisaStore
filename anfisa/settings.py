@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     
     'ice_cream.apps.IceCreamConfig',
     'comments.apps.CommentsConfig',
+    'catalog.apps.CatalogConfig',
 ]
 
 MIDDLEWARE = [
