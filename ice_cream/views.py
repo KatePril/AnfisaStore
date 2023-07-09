@@ -4,6 +4,11 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .models import IceCream
 
+from main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
+
+from django.urls import reverse
+
+from anfisa.settings import PAGE_NAMES
 
 class IceCreamIndex(ListView):
     model = IceCream
@@ -14,5 +19,27 @@ class IceCreamList(ListView):
     model = IceCream
     template_name = 'templates/ice_cream/icecream_list.html'
     
-class IceCreamDetail(DetailView):
+class IceCreamDetail(DetailViewBreadcrumbMixin):
     model = IceCream
+    
+    def get_breadcrumbs(self):
+        breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
+        category = self.object.main_category()
+        if category:
+            if category.parent:
+                linkss = []
+                parent = category.parent
+                while parent is not None:
+                    linkss.append(
+                        (
+                            reverse('category', kwargs={'slug': parent.slug}),
+                            parent.name
+                        )
+                    )
+                    parent = parent.parent
+                for url, name in linkss[::-1]:
+                    breadcrumbs[url] = name
+                    #breadcrumbs.update({url: name}) # або так
+            breadcrumbs.update({reverse('category', kwargs={'slug': category.slug}): category.name})
+        breadcrumbs.update({'current': self.object.name})
+        return breadcrumbs
