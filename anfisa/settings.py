@@ -153,3 +153,9 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Без этой настройки статика не подключится
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+PAGE_NAMES = {
+    'index': 'Головна',
+    'blog': 'Блог',
+    'catalog': 'Каталог',
+}

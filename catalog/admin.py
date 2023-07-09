@@ -8,5 +8,5 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
     readonly_fields = ('image_tag_thumbnail',)
-    fields = ('name', 'slug', 'parent', 'description','image_tag_thumbnail', 'image',
+    fields = ('name', 'slug', 'parent', 'description','image_tag_thumbnail', 'image', 
                 'meta_title', 'meta_description', 'meta_keywords')

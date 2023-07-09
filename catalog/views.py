@@ -3,21 +3,32 @@ from django.views.generic.list import ListView
 from .models import Category
 from ice_cream.models import IceCream
 from django.core.paginator import Paginator
+
+from django.urls import reverse
+
+from anfisa.settings import PAGE_NAMES
 # Create your views here.
+from main.mixins import ListViewBreadcrumbMixin
 
 def get_page_ice_cream(request, articles, pages_num):
     paginator = Paginator(articles, pages_num)
     page_number = request.GET.get("page")
     return paginator.get_page(page_number)
 
-class CatalogIndexView(ListView):
+class CatalogIndexView(ListViewBreadcrumbMixin):
     template_name = 'catalog/index.html'
     model = Category
 
     def get_queryset(self):
         return Category.objects.filter(parent=None)
+    
+    def get_breadcrumbs(self):
+        self.breadcrumbs = {
+            'current' : PAGE_NAMES['catalog'],
+        } # вказуємо поточну сторінку ДОПИСАТИ
+        return self.breadcrumbs
 
-class IceCreamByCategoryView(ListView):
+class IceCreamByCategoryView(ListViewBreadcrumbMixin):
     template_name = 'catalog/category.html'
     category = None
     categories = Category.objects.all()
@@ -34,3 +45,22 @@ class IceCreamByCategoryView(ListView):
         context['category'] = self.category
         context['categories'] = self.categories
         return context
+    
+    def get_breadcrumbs(self):
+        breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
+        if self.category.parent:
+            linkss = []
+            parent = self.category.parent
+            while parent is not None:
+                linkss.append(
+                    (
+                        reverse('category', kwargs={'slug': parent.slug}),
+                        parent.name
+                    )
+                )
+                parent = parent.parent
+            for url, name in linkss[::-1]:
+                breadcrumbs[url] = name
+                #breadcrumbs.update({url: name}) # або так
+        breadcrumbs.update({'current': self.category.name})
+        return breadcrumbs

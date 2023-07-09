@@ -43,6 +43,13 @@ class IceCream(MetaTagMixin):
 
     def get_absolute_url(self):
         return reverse('ice_cream', kwargs={'pk': self.id})
+    
+    def main_category(self):
+        category = self.category.filter(icecreamcategory__is_main=True).first() # вибираємо категорію яка має is_main=True
+        if category:
+            return category
+        return self.category.first()
+
 
 class Image(models.Model):
     image = ProcessedImageField(
@@ -78,7 +85,8 @@ class Image(models.Model):
             if not self.image_thumbnail:
                 Image.objects.get(id=self.id)
             return mark_safe(f'<img src="{self.image_thumbnail.url}">')
-
+    
+    
 class IceCreamCategory(models.Model):
     product = models.ForeignKey(IceCream, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
