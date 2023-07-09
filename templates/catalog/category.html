@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load mptt_tags %}
+
+{% block content%}
+
+<div class="row my-2 gap-3">
+    <div class='col-3 bg-body-tertiary rounded-3 p-4'>
+        <h1 class="text-center">Категории</h1>
+        <hr>
+        <ul class="list-group" style="position: sticky;top: 20px;">
+            {% recursetree categories %}
+                {% if count == 0 %}
+                    {% comment %} {% set count = 1 %} {% endcomment %}
+                <li class="bg-success rounded p-2 text-light" style="list-style-type: none; ">
+                    <a class="text-light" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
+
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% else %}
+                <li class="bg-light rounded p-2 text-success" style="list-style-type: none; ">
+                    <a class="text-success" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
+
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% endif %}
+            {% endrecursetree %}
+        </ul>
+    </div>
+
+    <div class="col bg-body-tertiary rounded-3 p-4">
+        <section>
+            <div class="container">
+                <h1>{{ category.name }}</h1>
+                <p>{{ category.description }}</p>
+            </div>
+        </section>
+
+        <div class="row py-3">
+            {% for ice_cream in object_list %}
+                {% include 'ice_cream/includes/ice_cream_card.html' %}
+            {% endfor %}
+
+
+            {% comment %} {% if is_paginated %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %} {% endcomment %}
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

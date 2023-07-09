@@ -4,6 +4,7 @@ from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+from catalog.models import Category
 
 class IceCream(models.Model):
     name = models.CharField('Название', max_length=200)
@@ -12,6 +13,14 @@ class IceCream(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     on_main = models.BooleanField('На главную?', default=True)
     # image = models.ImageField(upload_to='ice_cream/', verbose_name='Зображення', blank=True, null=True)
+
+    category = models.ManyToManyField(
+            to=Category,
+            verbose_name='Категории',
+            through='IceCreamCategory',
+            related_name='ice_cream',
+            blank=True        
+        )
 
     class Meta:        
         ordering = ('name',)
@@ -67,3 +76,16 @@ class Image(models.Model):
             if not self.image_thumbnail:
                 Image.objects.get(id=self.id)
             return mark_safe(f'<img src="{self.image_thumbnail.url}">')
+
+class IceCreamCategory(models.Model):
+    product = models.ForeignKey(IceCream, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    is_main = models.BooleanField( default=False)
+
+    def __str__(self):
+        return f'{self.product.name} - {self.category.name}'
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.is_main:
+            IceCreamCategory.objects.filter(product=self.product, is_main=True).update(is_main=False)
+        super().save(force_insert, force_update, using, update_fields)
