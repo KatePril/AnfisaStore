@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'catalog.apps.CatalogConfig',
     'main.apps.MainConfig',
+    'order.apps.OrderConfig'
 ]
 
 MIDDLEWARE = [
@@ -155,7 +156,5 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 PAGE_NAMES = {
-    'index': 'Головна',
-    'blog': 'Блог',
     'catalog': 'Каталог',
 }
