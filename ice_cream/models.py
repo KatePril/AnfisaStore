@@ -36,10 +36,13 @@ class IceCream(MetaTagMixin):
         return Image.objects.filter(ice_cream=self.id)
 
     def main_image(self):
-        image = Image.objects.filter(ice_cream=self.id, is_main=True)
+        image = Image.objects.filter(ice_cream=self.id, is_main=True).first()
         if image:
-            return image.first()
-        return self.images().first()
+            return image
+        image = Image.objects.filter(ice_cream=self.id).first()
+        if image:
+            return image
+        return Image.objects.filter().first()
 
     def get_absolute_url(self):
         return reverse('ice_cream', kwargs={'pk': self.id})

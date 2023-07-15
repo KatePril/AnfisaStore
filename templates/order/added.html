@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block breadcrumbs %}
-    {% include '_breadcrumbs.html' %}
+    {% include 'includes/_breadcrumbs.html' %}
 {% endblock %}
 
 
@@ -12,8 +12,8 @@
 
     <div class="col bg-body-tertiary rounded-3 p-4">
 
-        <h3 class = "mb-4">Каталог</h3>
-        <p> Товар <a href="{{ url_for('product', slug=product.slug) }}">{{ product.name }}</a> додано до кошика </p>
+        <h3 class = "mb-4"> Кошик </h3>
+        <p> Товар <a href="{% url 'ice_cream:ice_cream_detail' ice_cream.pk %}">{{ product.name }}</a> додано до кошика </p>
 
         {% include 'order/blocks/_cart.html' %}
 

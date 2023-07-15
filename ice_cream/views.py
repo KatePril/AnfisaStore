@@ -4,7 +4,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .models import IceCream
 
-from main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
+from order.views import get_cart_data
+from main.mixins import DetailViewBreadcrumbMixin
 
 from django.urls import reverse
 
@@ -21,6 +22,11 @@ class IceCreamList(ListView):
     
 class IceCreamDetail(DetailViewBreadcrumbMixin):
     model = IceCream
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_cart_data(self.request.user.id)
+        return context
     
     def get_breadcrumbs(self):
         breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}

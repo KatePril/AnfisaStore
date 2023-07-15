@@ -4,6 +4,7 @@ from .models import Category
 from ice_cream.models import IceCream
 from django.core.paginator import Paginator
 
+from order.views import get_cart_data
 from django.urls import reverse
 
 from anfisa.settings import PAGE_NAMES
@@ -19,6 +20,11 @@ class CatalogIndexView(ListViewBreadcrumbMixin):
     template_name = 'catalog/index.html'
     model = Category
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_cart_data(self.request.user.id)
+        return context
+    
     def get_queryset(self):
         return Category.objects.filter(parent=None)
     
@@ -41,9 +47,9 @@ class IceCreamByCategoryView(ListViewBreadcrumbMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count'] = 0
         context['category'] = self.category
         context['categories'] = self.categories
+        context['cart'] = get_cart_data(self.request.user.id)
         return context
     
     def get_breadcrumbs(self):
