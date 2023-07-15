@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     
     'mptt',
     'imagekit',
+    'mathfilters',
     
     'ice_cream.apps.IceCreamConfig',
     'comments.apps.CommentsConfig',

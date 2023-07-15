@@ -15,3 +15,19 @@ def get_cart_data(user_id):
 def add_to_cart(request):
     data = request.GET.copy()
     data.update({'user': request.user.id})
+    request.GET = data
+    form = AddCartForm(request.GET)
+    if form.is_valid():
+        cd = form.cleaned_data
+        row = Cart.objects.filter(product=cd['product'], user=cd['user'])
+        if row:
+            Cart.objects.filter(id = row.id).update(quantity=row.quantity+cd['quentity'])
+        else:
+            form.save()
+        return render(request,
+                    'order/added.html',
+                    {'product': cd['product'],
+                    'cart': get_cart_data(cd['user'])}
+                    )       
+    else:
+        return HttpResponse('ДОРОБИ МЕНЕ!!!')

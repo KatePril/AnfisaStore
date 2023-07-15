@@ -38,6 +38,22 @@
         <div class="col bg-success rounded py-3 text-light mx-1">Price: {{object.price}}</div>
       </div>
     </div>
+    {% if object.quantity %}
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'add_to_cart' %}" method="get">
+                            {% csrf_token %}
+                            <input type="hidden" name="object" value="{{ object.id }}">
+                            <div class="input-group mb-3">
+                                <input type="number" min="1" step="1" max="{{ object.quantity }}" value="1" class="form-control" name="quantity">
+                                <button class="btn btn-success" type="submit" id="button-addon1"><i class="fas fa-shopping-cart"></i> Добавить в корзину</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info">Робити покупки можуть тільки зареєстровані користувачі</div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning">Товар закінчився</div>
+                {% endif %}
 
     <div class="row m-3" style="display: flex; flex-wrap:wrap;">
       {% for image in object.images.all%}

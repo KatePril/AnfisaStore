@@ -26,4 +26,5 @@ urlpatterns = [
     path('', include('comments.urls', namespace='comments')),
     path('catalog/', include('catalog.urls')),
     path('admin/', admin.site.urls),
+    path('order/', include('order.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
