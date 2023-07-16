@@ -28,3 +28,12 @@ class Order(models.Model):
 
     def __str__(self):  
         return f'Замовлення №{self.id}'
+
+class OrderIceCream(models.Model):
+    order = models.ForeignKey(Order, related_name="ice_cream", on_delete=models.CASCADE)
+    ice_cream = models.ForeignKey(IceCream, on_delete=models.CASCADE)
+    price = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=1)
+    
+    def __str__(self):
+        return f'{self.ice_cream.name} - {self.quantity}'

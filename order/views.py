@@ -1,11 +1,14 @@
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import AddCartForm, OrderCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .models import Cart
 from django.views.generic import View
+
+from .models import Cart, Order, OrderIceCream
+from ice_cream.models import IceCream
 
 from anfisa.settings import PAGE_NAMES
 
@@ -46,7 +49,7 @@ class AddToCartView(LoginRequiredMixin, View):
         form = AddCartForm(request.GET)
         # print(form)
         # print(form.is_valid())
- 
+
         cd = form.data
         if form.is_valid():
             cd = form.cleaned_data
@@ -112,7 +115,19 @@ class OrderCreateView(LoginRequiredMixin, View):
         if form.is_valid():
             order = form.save()
             # Очистити корзину
-            Cart.objects.filter(user=user.id).delete()
+            # Cart.objects.filter(user=user.id).delete()
+            with transaction.atomic():
+                for row in cart['cart']:
+                    quantity = row.quantity if row.quantity >= row.ice_cream.quanity else row.ice_cream.quantity
+                    OrderIceCream.objects.create(
+                        order=order,
+                        ice_cream=row.ice_cream,
+                        price=row.product.price,
+                        quantity=quantity
+                    )
+                    IceCream.objects.filter(id=row.product.id). update(quantity=row.product.quantity - quantity)
+                Cart.objects.filter(user=user.id).delete()
+            
             return render(request, 'order/order_created.html', {'order': order, 'breadcrumbs': self.get_breadcrumbs()})
         else:
             messages.error(request, 'Помилка оформлення замовлення', extra_tags='danger')
