@@ -16,7 +16,10 @@
         <p> Товар <a href="{% url 'ice_cream:ice_cream_detail' ice_cream.pk %}">{{ product.name }}</a> додано до кошика </p>
 
         {% include 'order/blocks/_cart.html' %}
-
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'catalog' %}" class="btn btn-outline-primary">Продовжити покупки</a>
+            <a href="{% url 'create_order' %}" class="btn btn-primary">Оформити замовлення</a>
+        </div>
     </div>
 </div>
 
