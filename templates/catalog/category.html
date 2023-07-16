@@ -18,9 +18,9 @@
         <h1 class="text-center">Категории</h1>
         <hr>
         <ul class="list-group" style="position: sticky;top: 20px;">
-            {% recursetree categories %}
+            {% comment %} {% recursetree categories %}
                 {% if count == 0 %}
-                    {% comment %} {% set count = 1 %} {% endcomment %}
+                    {% set count = 1 %}
                 <li class="bg-success rounded p-2 text-light" style="list-style-type: none; ">
                     <a class="text-light" href="{{ node.get_absolute_url }}" style="text-decoration:none;">{{ node.name }}</a>
 
@@ -41,7 +41,7 @@
                     {% endif %}
                 </li>
                 {% endif %}
-            {% endrecursetree %}
+            {% endrecursetree %} {% endcomment %}
         </ul>
     </div>
 

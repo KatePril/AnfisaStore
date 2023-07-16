@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import AddCartForm, OrderCreateForm
@@ -110,6 +110,8 @@ class OrderCreateView(LoginRequiredMixin, View):
 
         data = request.POST.copy()
         data.update(user=user.id)
+        data.update(total=cart['total'])
+        data.update(paid=False)
         request.POST = data
         form = OrderCreateForm(request.POST)
         if form.is_valid():
@@ -118,7 +120,7 @@ class OrderCreateView(LoginRequiredMixin, View):
             # Cart.objects.filter(user=user.id).delete()
             with transaction.atomic():
                 for row in cart['cart']:
-                    quantity = row.quantity if row.quantity >= row.ice_cream.quanity else row.ice_cream.quantity
+                    quantity = row.quantity if row.quantity < row.ice_cream.quanity else row.ice_cream.quantity
                     OrderIceCream.objects.create(
                         order=order,
                         ice_cream=row.ice_cream,
@@ -128,7 +130,7 @@ class OrderCreateView(LoginRequiredMixin, View):
                     IceCream.objects.filter(id=row.product.id). update(quantity=row.product.quantity - quantity)
                 Cart.objects.filter(user=user.id).delete()
             
-            return render(request, 'order/order_created.html', {'order': order, 'breadcrumbs': self.get_breadcrumbs()})
+            return render(request, 'order/order_created.html', {'order': order, 'breadcrumbs': self.get_breadcrumbs(), "cart": OrderIceCream.objects.all()})
         else:
             messages.error(request, 'Помилка оформлення замовлення', extra_tags='danger')
 
@@ -139,3 +141,9 @@ class OrderCreateView(LoginRequiredMixin, View):
         breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog'], reverse('cart'): 'Кошик'}
         breadcrumbs['current'] = 'Оформлення замовлення'
         return breadcrumbs
+
+class DeleteFromCartView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        get_object_or_404(Cart, user=request.user.id, product=pk).delete()
+        # Cart.objects.filter(user=request.user.id, product=pk).delete()
+        return redirect(reverse('cart'))

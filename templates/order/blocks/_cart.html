@@ -11,15 +11,27 @@
     </tr>
     </thead>
     <tbody>
-    {% for row in cart.cart %}
+    {% for row in cart %}
         <tr>
-            <td><a href="{% url 'product' pk=row.product.id %}"><img class="img-thumbnail" width="70" src="{{ row.product.main_image.image_thumbnail.url }}" alt=""></a></td>
-            <td><a href="{% url 'product' pk=row.product.id %}">{{ row.product.name }}</a></td>
-            <td>{{ row.quantity }}</td>
-            <td>{{ row.product.price }}</td>
-            <td>{{ row.product.price|mul:row.quantity }} грн.</td>
             <td>
-                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                {% comment %} <a href="{% url 'ice_cream:ice_cream_detail' pk=row.ice_cream.id %}"> {% endcomment %}
+                    <img class="img-thumbnail" width="70" src="{{ row.ice_cream.main_image.image_thumbnail.url }}" alt="">
+                {% comment %} </a> {% endcomment %}
+            </td>
+            <td>
+                {% comment %} <a href="{% url 'ice_cream:ice_cream_detail' pk=row.ice_cream.id %}"> {% endcomment %}
+                    {{ row.object.name }}
+                {% comment %} </a> {% endcomment %}
+            </td>
+            <td>{{ row.quantity }}</td>
+            <td>{{ row.ice_cream.price }}</td>
+            <td>
+                {% comment %} {{ row.ice_cream.price|mul:row.quantity }} грн. {% endcomment %}
+            </td>
+            <td>
+                {% comment %} <a href="{% url 'delete_from_cart' pk=row.ice_cream.id %}" class="btn btn-danger"> {% endcomment %}
+                    <i class="fa fa-trash"></i>
+                {% comment %} </a> {% endcomment %}
             </td>
         </tr>
     {% endfor %}

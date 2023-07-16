@@ -5,7 +5,7 @@
 {% endblock %}
 
 
-{% block content_ %}
+{% block content %}
 
 <div class="row my-2 gap-3">
     {% include 'catalog/category.html' %}
@@ -13,7 +13,11 @@
     <div class="col bg-body-tertiary rounded-3 p-4">
 
         <h3 class = "mb-4"> Кошик </h3>
-        <p> Товар <a href="{% url 'ice_cream:ice_cream_detail' ice_cream.pk %}">{{ product.name }}</a> додано до кошика </p>
+        <p> Товар 
+            {% comment %} <a href="{% url 'ice_cream:ice_cream_detail' ice_cream.pk %}"> {% endcomment %}
+                {{ product.name }}
+            {% comment %} </a> {% endcomment %}
+                додано до кошика </p>
 
         {% include 'order/blocks/_cart.html' %}
         <div class="d-flex justify-content-between">
